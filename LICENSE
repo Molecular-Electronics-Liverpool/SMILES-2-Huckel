@@ -1,6 +1,6 @@
 MIT License
 
-Copyright (c) 2025 Molecular Electronics @ Liverpool
+Copyright (c) 2025 James Michael Francis Morris & Andrea Vezzoli / Molecular Electronics / The University of Liverpool
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -11,6 +11,11 @@ furnished to do so, subject to the following conditions:
 
 The above copyright notice and this permission notice shall be included in all
 copies or substantial portions of the Software.
+
+### Citation Requirement ###
+If this software is used in research that leads to a publication,  
+users **must cite the following paper** (DOI will be added when available):  
+[Your Paper Title] (DOI: 10.XXXX/your-paper-doi)
 
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
