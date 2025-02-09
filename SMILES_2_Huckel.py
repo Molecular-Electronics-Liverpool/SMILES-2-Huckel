@@ -21,7 +21,7 @@ def get_output_file_path():
     return output_file
 
 def find_r_group_indices(smiles):
-    mol = Chem.MolFromSmiles(smiles, sanitize=False)  # Use sanitize=False to bypass default sanitization
+    mol = Chem.MolFromSmiles(smiles, sanitize=False)  # Use sanitise=False to bypass default sanitisation
     if mol is None:
         raise ValueError("Invalid SMILES string.")
     
@@ -37,7 +37,7 @@ def find_r_group_indices(smiles):
 
 def remove_atoms_from_smiles(smiles, atom_indices):
     # Parse the SMILES string into an RDKit molecule
-    mol = Chem.MolFromSmiles(smiles, sanitize=False)  # Don't sanitize to avoid the valency error
+    mol = Chem.MolFromSmiles(smiles, sanitize=False)  # Don't sanitise to avoid the valency error
     if mol is None:
         raise ValueError("Invalid SMILES string.")
     
@@ -66,7 +66,7 @@ def smiles_to_huckel_matrix(smiles, output_file):
     try:
         mol_for_error = Chem.MolFromSmiles(modified_smiles_no_r, sanitize=True)
     except Exception as e:
-        print(f"Error during sanitization: {e}")
+        print(f"Error during sanitisation: {e}")
         return
     
     if mol_for_error is None:
@@ -88,7 +88,7 @@ def smiles_to_huckel_matrix(smiles, output_file):
         atom_indices.append(atom.GetSymbol())
         original_index_map[idx] = atom.GetIdx()  # Store original index
 
-    # Identify R groups and their neighbors
+    # Identify R groups and their neighbours
     for idx, symbol in enumerate(atom_indices):
         if symbol == '*':  # Check for the wildcard symbol
             # Add the index of the neighboring atom(s) connected to the R group
@@ -120,13 +120,13 @@ def smiles_to_huckel_matrix(smiles, output_file):
         if i in index_map and j in index_map:  # Only add bonds between kept atoms
             new_mol.AddBond(index_map[i], index_map[j], bond.GetBondType())
     
-    # Finalize the new molecule
+    # Finalise the new molecule
     new_mol = new_mol.GetMol()  # Convert to immutable molecule
 
     # Get the number of atoms in the new molecule
     num_atoms = new_mol.GetNumAtoms()
     
-    # Initialize an empty matrix for the Huckel Hamiltonian
+    # Initialise an empty matrix for the Huckel Hamiltonian
     matrix = np.full((num_atoms, num_atoms), "", dtype=object)
     
     # Dictionary to store unique atom symbols and bond types for user input
