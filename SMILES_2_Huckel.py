@@ -190,19 +190,3 @@ def smiles_to_huckel_matrix(smiles, output_file):
 output_file = get_output_file_path()
 smiles_input = input("Enter a SMILES string: ")
 smiles_to_huckel_matrix(smiles_input, output_file)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
