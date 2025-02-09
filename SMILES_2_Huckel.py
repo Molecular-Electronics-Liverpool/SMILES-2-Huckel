@@ -29,7 +29,6 @@ def find_r_group_indices(smiles):
     for atom in mol.GetAtoms():
         # Check for wildcard atoms, [*] or [R]
         if atom.GetSymbol() == '*':
-            #or atom.GetSmarts() == '[R]':
             r_indices.append(atom.GetIdx())
     
     return r_indices
@@ -91,7 +90,7 @@ def smiles_to_huckel_matrix(smiles, output_file):
     # Identify R groups and their neighbours
     for idx, symbol in enumerate(atom_indices):
         if symbol == '*':  # Check for the wildcard symbol
-            # Add the index of the neighboring atom(s) connected to the R group
+            # Add the index of the neighbouring atom(s) connected to the R group
             for neighbor in mol.GetAtomWithIdx(idx).GetNeighbors():
                 if neighbor.GetSymbol() != '*':  # Exclude R groups
                     connection_points.append(original_index_map[neighbor.GetIdx()])  # Store 1-based index
