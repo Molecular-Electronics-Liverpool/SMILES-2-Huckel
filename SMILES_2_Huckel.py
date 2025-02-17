@@ -4,24 +4,25 @@ import os
 
 def get_output_file_path():
 
-    # Prompt for dir
-    directory = input("Enter the full directory path to the folder you wish to save the output to: ").strip()
+    # Prompt for dir, strippping blank spaces and quotations
+    directory = input("Enter the full directory path to the folder you wish to save the output to: ").strip( '\"')
 
     # Check if dir exists and create if not
     if not os.path.exists(directory):
         os.makedirs(directory)
         print(f"A pre-existing directory with the path: '{directory}' did not exist, so one was created at that location")
 
-    # Prompt user for filename
-    file_name_sansTXT = input("Enter a name for the Huckel file (e.g. metaBenzene, paraBenzene etc...): ").strip()
-    file_name = file_name_sansTXT + ".txt"
+    # Prompt user for filename, remove any extensions and add the .txt extension
+    file_name_sansTXT_wEXT = input("Enter a name for the Huckel file (e.g. metaBenzene, paraBenzene etc...): ").strip()
+    file_name_sansTXT = os.path.splitext(file_name_sansTXT_wEXT)
+    file_name = file_name_sansTXT[0] + ".txt"
 
     # Create the full output path
     output_file = os.path.join(directory, file_name)
     return output_file
 
 def find_r_group_indices(smiles):
-    mol = Chem.MolFromSmiles(smiles, sanitize=False)  # Use sanitise=False to bypass default sanitisation
+    mol = Chem.MolFromSmiles(smiles, sanitize=False)  # Use sanitise=False to bypass default sanitization
     if mol is None:
         raise ValueError("Invalid SMILES string.")
     
@@ -61,9 +62,13 @@ def smiles_to_huckel_matrix(smiles, output_file):
     r_group_indices = find_r_group_indices(modified_smiles)
     modified_smiles_no_r = remove_atoms_from_smiles(modified_smiles, r_group_indices)
 
-    # Sanitize the modified SMILES (after removing R groups) to fix valency issues
+    # Sanitise the modified SMILES (after removing R groups) to fix valency issues while ignoring kekulisation in rdkit
     try:
-        mol_for_error = Chem.MolFromSmiles(modified_smiles_no_r, sanitize=True)
+        mol_for_error = Chem.MolFromSmiles(modified_smiles_no_r, sanitize=False)
+        sanitize_ops = Chem.SanitizeFlags.SANITIZE_ALL & ~Chem.SanitizeFlags.SANITIZE_KEKULIZE
+        Chem.SanitizeMol(mol_for_error, sanitizeOps=sanitize_ops)
+        mol_for_error.UpdatePropertyCache(strict=False)
+
     except Exception as e:
         print(f"Error during sanitisation: {e}")
         return
@@ -190,3 +195,19 @@ def smiles_to_huckel_matrix(smiles, output_file):
 output_file = get_output_file_path()
 smiles_input = input("Enter a SMILES string: ")
 smiles_to_huckel_matrix(smiles_input, output_file)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
